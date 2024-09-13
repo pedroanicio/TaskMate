@@ -1,8 +1,10 @@
 package br.com.taskmate.model.user;
 
-import br.com.taskmate.model.Service;
+import br.com.taskmate.model.Work;
+import br.com.taskmate.model.user.enums.UserRole;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import java.util.List;
@@ -21,22 +23,23 @@ public class Worker extends User{
     @Column(name = "rating", updatable = true, nullable = false)
     private Double rating;
 
-    private List<Service> services;
+    @OneToMany(mappedBy = "worker")
+    private List<Work> works;
 
-    public void addService(Service service) {
-        services.add(service);
+    public void addWork(Work work) {
+        works.add(work);
     }
 
-    public void removeService(Service service) {
-        services.remove(service);
+    public void removeWork(Work work) {
+        works.remove(work);
     }
 
-    public List<Service> getServices() {
-        return services;
+    public List<Work> getServices() {
+        return works;
     }
 
-    public void setServices(List<Service> services) {
-        this.services = services;
+    public void setServices(List<Work> services) {
+        this.works = services;
     }
 
     public String getProfession() {
@@ -63,12 +66,17 @@ public class Worker extends User{
         this.rating = rating;
     }
 
-    public Worker(UUID id, String firstName, String lastName, String email, String password, Integer age, String phone, String profession, String description, Double rating, List<Service> services) {
-        super(id, firstName, lastName, email, password, age, phone);
+
+    public Worker(UUID id, String username, String firstName, String lastName, String email, String password, Integer age, String phone, UserRole role, String profession, String description, Double rating, List<Work> works) {
+        super(id, username, firstName, lastName, email, password, age, phone, role);
         this.profession = profession;
         this.description = description;
         this.rating = rating;
-        this.services = services;
+        this.works = works;
     }
+
+    public Worker() {
+    }
+
 
 }
