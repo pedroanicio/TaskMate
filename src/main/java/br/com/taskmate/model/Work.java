@@ -2,7 +2,6 @@ package br.com.taskmate.model;
 
 import br.com.taskmate.model.user.Worker;
 import jakarta.persistence.*;
-import org.springframework.context.annotation.Bean;
 
 import java.util.UUID;
 

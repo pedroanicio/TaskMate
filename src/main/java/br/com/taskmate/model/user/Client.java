@@ -11,6 +11,10 @@ import java.util.UUID;
 public class Client extends User{
 
 
+    public Client(String username, String firstName, String lastName, String email, String password, Integer age, String phone, UserRole role) {
+        super(username, firstName, lastName, email, password, age, phone, role);
+    }
+
     public Client(UUID id, String username, String firstName, String lastName, String email, String password, Integer age, String phone, UserRole role) {
         super(id, username, firstName, lastName, email, password, age, phone, role);
     }

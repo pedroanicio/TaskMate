@@ -20,7 +20,7 @@ public class Worker extends User{
     @Column(name = "description", updatable = true, nullable = false, length = 100)
     private String description;
 
-    @Column(name = "rating", updatable = true, nullable = false)
+    @Column(name = "rating", updatable = true, nullable = true)
     private Double rating;
 
     @OneToMany(mappedBy = "worker")
@@ -67,6 +67,12 @@ public class Worker extends User{
     }
 
 
+    public Worker(String username, String firstName, String lastName, String email, String password, Integer age, String phone, UserRole role, String profession, String description) {
+        super(username, firstName, lastName, email, password, age, phone, role);
+        this.profession = profession;
+        this.description = description;
+    }
+
     public Worker(UUID id, String username, String firstName, String lastName, String email, String password, Integer age, String phone, UserRole role, String profession, String description, Double rating, List<Work> works) {
         super(id, username, firstName, lastName, email, password, age, phone, role);
         this.profession = profession;
@@ -74,6 +80,7 @@ public class Worker extends User{
         this.rating = rating;
         this.works = works;
     }
+
 
     public Worker() {
     }
