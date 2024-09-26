@@ -4,10 +4,7 @@ import br.com.taskmate.infra.security.TokenService;
 import br.com.taskmate.model.user.Client;
 import br.com.taskmate.model.user.User;
 import br.com.taskmate.model.user.Worker;
-import br.com.taskmate.model.user.dto.AuthenticationDTO;
-import br.com.taskmate.model.user.dto.LoginResponseDTO;
-import br.com.taskmate.model.user.dto.RegisterDTOClient;
-import br.com.taskmate.model.user.dto.RegisterDTOWorker;
+import br.com.taskmate.model.user.dto.*;
 import br.com.taskmate.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -63,6 +60,19 @@ public class AuthenticationController {
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
         Client newUser = new Client(data.username(), data.firstName(), data.lastName(), data.email(), encryptedPassword, data.age(), data.phone(), data.role());
+
+        this.userRepository.save(newUser);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/adminRegister")
+    public ResponseEntity register(@RequestBody RegisterDTOAdmin data) {
+        // registrar usuário admin
+        if (this.userRepository.findByUsername(data.username()) != null) return ResponseEntity.badRequest().build();
+
+        String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
+        User newUser = new User(data.username(), data.firstName(), data.lastName(), data.email(), encryptedPassword, data.age(), data.phone(), data.role());
 
         this.userRepository.save(newUser);
 
