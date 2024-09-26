@@ -2,6 +2,7 @@ package br.com.taskmate.model.user;
 
 import br.com.taskmate.model.Work;
 import br.com.taskmate.model.user.enums.UserRole;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -24,6 +25,7 @@ public class Worker extends User{
     private Double rating;
 
     @OneToMany(mappedBy = "worker")
+    @JsonBackReference
     private List<Work> works;
 
     public void addWork(Work work) {
