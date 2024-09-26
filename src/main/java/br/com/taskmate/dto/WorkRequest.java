@@ -9,6 +9,7 @@ public class WorkRequest {
     private String location;
     private UUID workerId;
 
+
     public String getName() {
         return name;
     }
