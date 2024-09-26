@@ -1,6 +1,7 @@
 package br.com.taskmate.model;
 
 import br.com.taskmate.model.user.Worker;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.UUID;
@@ -28,6 +29,7 @@ public class Work {
 
     @ManyToOne
     @JoinColumn(name = "worker_id")
+    @JsonBackReference
     private Worker worker;
 
     public Worker getWorker() {

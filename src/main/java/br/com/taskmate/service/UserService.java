@@ -39,5 +39,9 @@ public class UserService {
     public Optional<Worker> findWorkerById(UUID id) {
         return workerRepository.findById(id);
     }
+
+    public Worker findWorkerByUsername(String username) {
+        return workerRepository.findByUsername(username);
+    }
 }
 

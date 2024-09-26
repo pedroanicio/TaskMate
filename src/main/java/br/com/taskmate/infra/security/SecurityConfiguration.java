@@ -30,7 +30,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/workerRegister").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/clientRegister").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/services/createWork").hasRole("WORKER")
+                        .requestMatchers(HttpMethod.POST, "/works/createWork").hasRole("WORKER")
                         //.requestMatchers(HttpMethod.POST, "/user/client").hasRole("CLIENT")
                         .anyRequest().authenticated()
                 )
