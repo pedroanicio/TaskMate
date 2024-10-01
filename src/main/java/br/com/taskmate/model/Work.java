@@ -1,9 +1,12 @@
 package br.com.taskmate.model;
 
+import br.com.taskmate.model.user.Client;
 import br.com.taskmate.model.user.Worker;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -27,10 +30,28 @@ public class Work {
     @Column(name = "location", updatable = true, nullable = false, length = 100)
     private String location;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "worker_id")
     @JsonBackReference
     private Worker worker;
+
+    @ManyToMany(mappedBy = "contractedWorks")
+    private List<Client> clients = new ArrayList<>();
+
+    @Column(name = "completed", nullable = false)
+    private boolean completed = false;
+
+    public List<Client> getClients() {
+        return clients;
+    }
+
+    public void setClients(List<Client> clients) {
+        this.clients = clients;
+    }
+
+    public void addClient(Client client) {
+        this.clients.add(client);
+    }
 
     public Worker getWorker() {
         return worker;

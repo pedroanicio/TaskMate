@@ -1,6 +1,8 @@
 package br.com.taskmate.service;
 
+import br.com.taskmate.model.Contract;
 import br.com.taskmate.model.Work;
+import br.com.taskmate.repository.ContractRepository;
 import br.com.taskmate.repository.WorkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,9 @@ public class WorkService {
 
     @Autowired
     private WorkRepository workRepository;
+
+    @Autowired
+    private ContractRepository contractRepository;
 
     public List<Work> findAllWorks() {
         return workRepository.findAll();
@@ -34,5 +39,8 @@ public class WorkService {
         workRepository.deleteById(id);
     }
 
+    public Contract saveContract(Contract contract) {
+        return contractRepository.save(contract);
+    }
 
 }
