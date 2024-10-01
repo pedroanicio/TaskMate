@@ -1,7 +1,9 @@
 package br.com.taskmate.service;
 
+import br.com.taskmate.model.user.Client;
 import br.com.taskmate.model.user.User;
 import br.com.taskmate.model.user.Worker;
+import br.com.taskmate.repository.ClientRepository;
 import br.com.taskmate.repository.UserRepository;
 import br.com.taskmate.repository.WorkerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class UserService {
 
     @Autowired
     private WorkerRepository workerRepository;
+
+    @Autowired
+    private ClientRepository clientRepository;
 
     public List<User> findAllUsers() {
         return userRepository.findAll();
@@ -42,6 +47,12 @@ public class UserService {
 
     public Worker findWorkerByUsername(String username) {
         return workerRepository.findByUsername(username);
+    }
+
+    public Client findClientByUsername(String username) {return clientRepository.findByUsername(username);}
+
+    public Client saveClient(Client client) {
+        return clientRepository.save(client);
     }
 }
 

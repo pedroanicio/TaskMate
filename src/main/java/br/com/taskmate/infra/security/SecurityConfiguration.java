@@ -33,6 +33,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/auth/adminRegister").permitAll()
                         .requestMatchers(HttpMethod.POST, "/works/createWork").hasRole("WORKER")
                         .requestMatchers(HttpMethod.GET, "/works/all").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/works/contractWork/{workId}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/user/all").hasRole("ADMIN")
                         //.requestMatchers(HttpMethod.POST, "/user/client").hasRole("CLIENT")
                         .anyRequest().authenticated()

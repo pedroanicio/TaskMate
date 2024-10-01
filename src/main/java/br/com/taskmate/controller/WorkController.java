@@ -3,12 +3,15 @@ package br.com.taskmate.controller;
 
 import br.com.taskmate.dto.WorkResponse;
 import br.com.taskmate.infra.security.TokenService;
+import br.com.taskmate.model.Contract;
 import br.com.taskmate.model.Work;
 
+import br.com.taskmate.model.user.Client;
 import br.com.taskmate.model.user.Worker;
 import br.com.taskmate.service.UserService;
 import br.com.taskmate.service.WorkService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -59,4 +62,31 @@ public class WorkController {
         return ResponseEntity.ok(workResponses);
     }
 
+    @PostMapping("/contractWork/{workId}")
+    public ResponseEntity<Contract> contractWork(@PathVariable UUID workId, HttpServletRequest request) {
+        String token = request.getHeader("Authorization").replace("Bearer ", "");
+        String username = tokenService.validateToken(token);
+
+        if (username.isEmpty()) {
+            return ResponseEntity.status(401).build();
+        }
+
+        Client client = userService.findClientByUsername(username);
+        if (client == null) {
+            return ResponseEntity.status(404).build();
+        }
+
+        Optional<Work> workOptional = Optional.ofNullable(workService.findWorkById(workId));
+        if (workOptional.isEmpty()) {
+            return ResponseEntity.status(404).build();
+        }
+
+        Work work = workOptional.get();
+        Contract contract = new Contract();
+        contract.setClient(client);
+        contract.setWork(work);
+
+        Contract savedContract = workService.saveContract(contract);
+        return ResponseEntity.ok(savedContract);
+    }
 }
