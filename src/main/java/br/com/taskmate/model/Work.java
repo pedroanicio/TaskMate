@@ -39,7 +39,7 @@ public class Work {
     private List<Client> clients = new ArrayList<>();
 
     @Column(name = "completed", nullable = false)
-    private boolean completed = false;
+    private int completed = 0;
 
     public List<Client> getClients() {
         return clients;
