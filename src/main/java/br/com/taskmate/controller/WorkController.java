@@ -1,6 +1,7 @@
 package br.com.taskmate.controller;
 
 
+import br.com.taskmate.dto.ContractRequest;
 import br.com.taskmate.dto.WorkResponse;
 import br.com.taskmate.infra.security.TokenService;
 import br.com.taskmate.model.Contract;
@@ -8,10 +9,11 @@ import br.com.taskmate.model.Work;
 
 import br.com.taskmate.model.user.Client;
 import br.com.taskmate.model.user.Worker;
+import br.com.taskmate.service.ContractService;
 import br.com.taskmate.service.UserService;
 import br.com.taskmate.service.WorkService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.apache.logging.log4j.Logger;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +29,9 @@ public class WorkController {
 
     @Autowired
     private WorkService workService;
+
+    @Autowired
+    private ContractService contractService;
 
     @Autowired
     private UserService userService;
@@ -63,7 +68,7 @@ public class WorkController {
     }
 
     @PostMapping("/contractWork/{workId}")
-    public ResponseEntity<Contract> contractWork(@PathVariable UUID workId, HttpServletRequest request) {
+    public ResponseEntity<Contract> contractWork(@PathVariable UUID workId, @RequestBody ContractRequest requisition , HttpServletRequest request) {
         String token = request.getHeader("Authorization").replace("Bearer ", "");
         String username = tokenService.validateToken(token);
 
@@ -85,8 +90,9 @@ public class WorkController {
         Contract contract = new Contract();
         contract.setClient(client);
         contract.setWork(work);
+        contract.setRequisition(requisition.getRequisition());
 
-        Contract savedContract = workService.saveContract(contract);
+        Contract savedContract = contractService.saveContract(contract);
         return ResponseEntity.ok(savedContract);
     }
 }

@@ -16,9 +16,6 @@ public class WorkService {
     @Autowired
     private WorkRepository workRepository;
 
-    @Autowired
-    private ContractRepository contractRepository;
-
     public List<Work> findAllWorks() {
         return workRepository.findAll();
     }
@@ -39,8 +36,5 @@ public class WorkService {
         workRepository.deleteById(id);
     }
 
-    public Contract saveContract(Contract contract) {
-        return contractRepository.save(contract);
-    }
 
 }
