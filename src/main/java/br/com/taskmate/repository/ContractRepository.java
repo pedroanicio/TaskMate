@@ -8,4 +8,6 @@ import java.util.UUID;
 
 @Repository
 public interface ContractRepository extends JpaRepository<Contract, UUID> {
+    Contract findContractByWorkId(UUID id);
+    void deleteContractByWorkId(UUID workId);
 }
