@@ -8,6 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface WorkRepository extends JpaRepository<Work, UUID> {
-
     Work findWorkByWorkerId(UUID id);
 }

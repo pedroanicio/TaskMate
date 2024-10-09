@@ -58,6 +58,23 @@ public class WorkController {
         return ResponseEntity.ok(savedWork);
     }
 
+    @DeleteMapping("/deleteWork/{workId}")
+    public ResponseEntity<Work> deleteWork(@PathVariable UUID workId){
+
+        Work work = workService.findWorkById(workId);
+        if(work == null){
+            System.out.println("passou aqui1");
+            return ResponseEntity.status(404).build();
+        }
+
+        Contract contract = contractService.findContractByWorkId(workId);
+
+        contractService.deleteContractByWorkId(workId);
+
+        workService.deleteWork(workId);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/all")
     public ResponseEntity<List<WorkResponse>> getAllWorks() {
         List<Work> works = workService.findAllWorks();
@@ -95,4 +112,5 @@ public class WorkController {
         Contract savedContract = contractService.saveContract(contract);
         return ResponseEntity.ok(savedContract);
     }
+
 }

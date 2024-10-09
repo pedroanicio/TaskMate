@@ -9,5 +9,4 @@ import java.util.UUID;
 @Repository
 public interface WorkerRepository extends JpaRepository<Worker, UUID> {
     Worker findByUsername(String username);
-
 }
