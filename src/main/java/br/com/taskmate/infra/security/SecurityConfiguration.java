@@ -35,7 +35,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/works/createWork").hasRole("WORKER")
                         .requestMatchers(HttpMethod.GET, "/works/all").permitAll()
                         .requestMatchers(HttpMethod.POST, "/works/contractWork/{workId}").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/works/deleteWork/{workId}").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/works/deleteWork/{workId}").hasRole("WORKER")
 
                         .requestMatchers(HttpMethod.GET, "/user/all").permitAll()
                         //.requestMatchers(HttpMethod.POST, "/user/client").hasRole("CLIENT")
