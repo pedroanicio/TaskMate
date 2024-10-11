@@ -59,18 +59,23 @@ public class WorkController {
     }
 
     @DeleteMapping("/deleteWork/{workId}")
-    public ResponseEntity<Work> deleteWork(@PathVariable UUID workId){
+    public ResponseEntity<Work> deleteWork(@PathVariable UUID workId, HttpServletRequest request){
+
+        if(verifyAuthentication(request).isEmpty()){
+            return ResponseEntity.status(401).build();
+        }
 
         Work work = workService.findWorkById(workId);
         if(work == null){
-            System.out.println("passou aqui1");
             return ResponseEntity.status(404).build();
         }
 
-        Contract contract = contractService.findContractByWorkId(workId);
+        Worker worker = userService.findWorkerByUsername(verifyAuthentication(request));
+        if (worker == null || !work.getWorker().getId().equals(worker.getId())) {
+            return ResponseEntity.status(403).build(); // Forbidden
+        }
 
         contractService.deleteContractByWorkId(workId);
-
         workService.deleteWork(workId);
         return ResponseEntity.noContent().build();
     }
@@ -111,6 +116,13 @@ public class WorkController {
 
         Contract savedContract = contractService.saveContract(contract);
         return ResponseEntity.ok(savedContract);
+    }
+
+    public String verifyAuthentication(HttpServletRequest request){
+        String token = request.getHeader("Authorization").replace("Bearer ", "");
+        String username = tokenService.validateToken(token);
+
+        return username;
     }
 
 }
