@@ -24,6 +24,10 @@ public class WorkService {
         return workRepository.findById(id).orElse(null);
     }
 
+    public Work findWorkByName(String name) {
+        return workRepository.findByName(name).orElse(null);
+    }
+
     public Work findWorkByWorkerId(UUID id) {
         return workRepository.findWorkByWorkerId(id);
     }

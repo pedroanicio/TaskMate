@@ -54,7 +54,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/clientRegister")
-    public ResponseEntity register(@RequestBody RegisterDTOClient data) {
+    public ResponseEntity register(@org.jetbrains.annotations.NotNull @RequestBody RegisterDTOClient data) {
         // registrar usuário cliente
         if (this.userRepository.findByUsername(data.username()) != null) return ResponseEntity.badRequest().build();
 

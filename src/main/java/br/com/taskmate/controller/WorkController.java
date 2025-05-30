@@ -89,26 +89,30 @@ public class WorkController {
         return ResponseEntity.ok(workResponses);
     }
 
-    @PostMapping("/contractWork/{workId}")
-    public ResponseEntity<Contract> contractWork(@PathVariable UUID workId, @RequestBody ContractRequest requisition , HttpServletRequest request) {
+    @PostMapping("/contractWork/{workName}")
+    public ResponseEntity<Contract> contractWork(@PathVariable String workName, @RequestBody ContractRequest requisition , HttpServletRequest request) {
         String token = request.getHeader("Authorization").replace("Bearer ", "");
         String username = tokenService.validateToken(token);
 
         if (username.isEmpty()) {
+            System.out.println("Authentication failed for user: " + username);
             return ResponseEntity.status(401).build();
         }
 
-        Client client = userService.findClientByUsername(username);
+        String clientId = tokenService.validateToken(token);
+        Client client = userService.findClientById(UUID.fromString(clientId));
         if (client == null) {
+            System.out.println("Client not found with ID: " + clientId);
             return ResponseEntity.status(404).build();
         }
 
-        Optional<Work> workOptional = Optional.ofNullable(workService.findWorkById(workId));
+        Optional<Work> workOptional = Optional.ofNullable(workService.findWorkByName(workName));
         if (workOptional.isEmpty()) {
+            System.out.println("Work not found with name: " + workName);
             return ResponseEntity.status(404).build();
         }
 
-        Work work = workOptional.get();
+        Work work = workOptional.get(); // Ensure work is not null
         Contract contract = new Contract();
         contract.setClient(client);
         contract.setWork(work);
