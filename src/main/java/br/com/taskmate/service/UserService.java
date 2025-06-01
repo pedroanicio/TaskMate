@@ -33,6 +33,8 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+
+
     public User saveUser(User user) {
         return userRepository.save(user);
     }
@@ -50,6 +52,10 @@ public class UserService {
     }
 
     public Client findClientByUsername(String username) {return clientRepository.findByUsername(username);}
+
+    public Client findClientById(UUID clientId){
+        return clientRepository.findById(clientId).orElse(null);
+    }
 
     public Client saveClient(Client client) {
         return clientRepository.save(client);
