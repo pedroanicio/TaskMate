@@ -124,9 +124,8 @@ public class WorkController {
 
     public String verifyAuthentication(HttpServletRequest request){
         String token = request.getHeader("Authorization").replace("Bearer ", "");
-        String username = tokenService.validateToken(token);
 
-        return username;
+        return tokenService.validateToken(token);
     }
 
 }
